@@ -1,0 +1,9 @@
+.notice_header {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  background-color: rgb(56, 43, 43);
+  font-size: 24px;
+  color: white;
+  border-radius: 20px;
+}

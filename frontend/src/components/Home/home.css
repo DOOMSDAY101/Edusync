@@ -1,0 +1,5 @@
+.home_item {
+  display: flex;
+  height: 95vh;
+  align-items: center;
+}

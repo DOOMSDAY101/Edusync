@@ -4,14 +4,13 @@ import Register from "./components/Register/register";
 import ForgotPassword from "./components/Forgotpassword/forgotpassword";
 import NotFound from "./components/Notfound/notfound";
 import AppLayout from "./components/appLayout/AppLayout";
-import RegisterStudent from './components/RegisterStudent/RegisterStudent'
+import RegisterStudent from "./components/RegisterStudent/RegisterStudent";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Notice from './components/Notice/notice';
-
-
+import Notice from "./components/Notice/notice";
+import Studentlist from "./components/StudentList/studentlist";
+import TimeTable from "./components/TimeTable/timetable";
 
 function App() {
-
   return (
     <div>
       <BrowserRouter>
@@ -20,8 +19,8 @@ function App() {
             <Route path="home" element={<Home />} />
             <Route path="register-student" element={<RegisterStudent />} />
             <Route path="notice" element={<Notice />} />
-
-
+            <Route path="studentlist" element={<Studentlist />} />
+            <Route path="timetable" element={<TimeTable />} />
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />

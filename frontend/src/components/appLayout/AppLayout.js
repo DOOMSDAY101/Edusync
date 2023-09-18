@@ -23,6 +23,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
+import main_logo from "./main_logo.png";
+import "./appLayout.css";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -79,9 +81,9 @@ export default function AppLayout() {
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-  const handelRegister = () => {
-    navigate('/register-student')
-  }
+  const handelUrlClick = (url) => {
+    navigate(url);
+  };
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -113,7 +115,13 @@ export default function AppLayout() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1 }}
+            onClick={() => handelUrlClick("/home")}
+          >
+            <img className="logo_image" src={main_logo}></img>
             School Managment System
           </Typography>
           {auth && (
@@ -143,7 +151,9 @@ export default function AppLayout() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={() => handelUrlClick("/login")}>
+                  Logout
+                </MenuItem>
               </Menu>
             </div>
           )}
@@ -186,38 +196,48 @@ export default function AppLayout() {
           ))}
         </List> */}
         <List>
-          <ListItem key={1} disablePadding onClick={handelRegister}>
+          <ListItem
+            key={1}
+            disablePadding
+            onClick={() => handelUrlClick("/register-student")}
+          >
             <ListItemButton>
-              <ListItemText primary='Register Student' />
+              <ListItemText primary="Register Student" />
             </ListItemButton>
           </ListItem>
-          <ListItem key={2} disablePadding>
+          <ListItem
+            key={2}
+            disablePadding
+            onClick={() => handelUrlClick("/studentlist")}
+          >
             <ListItemButton>
-              <ListItemText primary='Student List' />
+              <ListItemText primary="Student List" />
             </ListItemButton>
           </ListItem>
-          <ListItem key={3} disablePadding>
+          <ListItem
+            key={4}
+            disablePadding
+            onClick={() => handelUrlClick("/notice")}
+          >
             <ListItemButton>
-              <ListItemText primary='Student Attendace' />
+              <ListItemText primary="Notice" />
             </ListItemButton>
           </ListItem>
-          <ListItem key={4} disablePadding>
+          <ListItem
+            key={5}
+            disablePadding
+            onClick={() => handelUrlClick("/timetable")}
+          >
             <ListItemButton>
-              <ListItemText primary='Notice' />
-            </ListItemButton>
-          </ListItem>
-          <ListItem key={5} disablePadding>
-            <ListItemButton>
-              <ListItemText primary='Time Table' />
+              <ListItemText primary="Time Table" />
             </ListItemButton>
           </ListItem>
           <ListItem key={6} disablePadding>
             <ListItemButton>
-              <ListItemText primary='Result' />
+              <ListItemText primary="Result" />
             </ListItemButton>
           </ListItem>
         </List>
-
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
