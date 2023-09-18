@@ -13,12 +13,12 @@ function createData(id, fullname, gender, birthdate, grade) {
 }
 
 const rows = [
-  createData(1, "Meklit Abenezer Dereje", "Female", "2/4/2002", "grade 4"),
-  createData(2, "Natan Abenezer Dereje", "Male", "2/4/2002", "grade 3"),
-  createData(3, "Suleman Mohamed Reshid", "Male", "2/4/2002", "grade 10"),
+  createData(1, "Meklit Abenezer Dereje", "Female", "1/4/2006", "grade 4"),
+  createData(2, "Natan Abenezer Dereje", "Male", "2/3/2010", "grade 3"),
+  createData(3, "Suleman Mohamed Reshid", "Male", "4/4/1992", "grade 10"),
   createData(4, "Roz Jone Snaw", "Female", "2/4/2002", "grade 8"),
-  createData(5, "Eyob Dagne Asefa", "Male", "2/4/2002", "grade 12"),
-  createData(6, "Robel Dereje Wakgari", "Male", "2/4/2002", "grade 2"),
+  createData(5, "Eyob Dagne Asefa", "Male", "6/5/2004", "grade 12"),
+  createData(6, "Robel Dereje Wakgari", "Male", "2/8/1994", "grade 2"),
 ];
 function Studentlist() {
   return (
