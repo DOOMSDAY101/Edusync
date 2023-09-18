@@ -114,7 +114,7 @@ export default function AppLayout() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Photos
+            School Managment System
           </Typography>
           {auth && (
             <div>
@@ -199,6 +199,21 @@ export default function AppLayout() {
           <ListItem key={3} disablePadding>
             <ListItemButton>
               <ListItemText primary='Student Attendace' />
+            </ListItemButton>
+          </ListItem>
+          <ListItem key={4} disablePadding>
+            <ListItemButton>
+              <ListItemText primary='Notice' />
+            </ListItemButton>
+          </ListItem>
+          <ListItem key={5} disablePadding>
+            <ListItemButton>
+              <ListItemText primary='Time Table' />
+            </ListItemButton>
+          </ListItem>
+          <ListItem key={6} disablePadding>
+            <ListItemButton>
+              <ListItemText primary='Result' />
             </ListItemButton>
           </ListItem>
         </List>

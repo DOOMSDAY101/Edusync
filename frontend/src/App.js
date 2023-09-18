@@ -6,6 +6,8 @@ import NotFound from "./components/Notfound/notfound";
 import AppLayout from "./components/appLayout/AppLayout";
 import RegisterStudent from './components/RegisterStudent/RegisterStudent'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Notice from './components/Notice/notice';
+
 
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
           <Route path="/" element={<AppLayout />}>
             <Route path="home" element={<Home />} />
             <Route path="register-student" element={<RegisterStudent />} />
+            <Route path="notice" element={<Notice />} />
+
 
           </Route>
           <Route path="login" element={<Login />} />
