@@ -33,7 +33,7 @@ export default function Register() {
         }}
       >
         <Typography component="h1" variant="h5">
-          Register
+          Account Register
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField

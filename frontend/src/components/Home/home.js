@@ -11,11 +11,9 @@ function Home() {
           <div class="card">
             <img src={Studying2} class="card-img-top" alt="..." />
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
+              <h5 class="card-title">Certified Teachers</h5>
               <p class="card-text">
-                This is a longer card with supporting text below as a natural
-                lead-in to additional content. This content is a little bit
-                longer.
+                Accreditation ensures that other accredited schools and universities recognize our students’ transcripts, credits, and courses.
               </p>
             </div>
           </div>
@@ -24,10 +22,9 @@ function Home() {
           <div class="card">
             <img src={Studying1} class="card-img-top" alt="..." />
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
+              <h5 class="card-title">Special Education</h5>
               <p class="card-text">
-                This is a longer card with supporting text below as a natural
-                lead-in to additional content.
+                Students can enroll at any time during the year and counselors will work to align the coursework to match up to previously completed work from the other school.
               </p>
             </div>
           </div>
@@ -36,11 +33,9 @@ function Home() {
           <div class="card">
             <img src={Studying} class="card-img-top" alt="..." />
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
+              <h5 class="card-title">Anytime Learning</h5>
               <p class="card-text">
-                This is a longer card with supporting text below as a natural
-                lead-in to additional content. This content is a little bit
-                longer.
+                We take the classroom to wherever you may be, regardless of timezone, provided a reliable internet connection is available. Lessons can also be completed offline.
               </p>
             </div>
           </div>
