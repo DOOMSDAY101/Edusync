@@ -33,6 +33,6 @@ Admin can announce notice also.
 
 ### Author 
 
-Abenezer Dereje https://github.com/AbenezerDer
-Sulaiman Ifeoluwa	https://github.com/DOOMSDAY101
+ <b>Abenezer Dereje https://github.com/AbenezerDer</b>
+<b>Sulaiman Ifeoluwa	https://github.com/DOOMSDAY101</b>
 Eyob Dagne	https://github.com/yobadagne
