@@ -29,3 +29,10 @@ After login they can see how many student/teacher wants to get job/admission in 
 They can approve or delete/cancel the request.
 They can update any student/teacher details.
 Admin can announce notice also.
+
+
+### Author 
+
+Abenezer Dereje
+Sulaiman Ifeoluwa
+Eyob Dagne
