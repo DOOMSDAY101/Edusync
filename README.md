@@ -1,5 +1,16 @@
 ### Home Page
 ![Screenshot (61)](https://github.com/DOOMSDAY101/Edusync/assets/111040170/34f5f4d7-fe6f-4daa-8bcf-8ca5b48190f9)
+
+### Sign Up Page
+![Screenshot (66)](https://github.com/DOOMSDAY101/Edusync/assets/111040170/c4c5ee97-63f4-40c0-97e2-c0b73f0ac634)
+
+### Registration Page
+![Screenshot (62)](https://github.com/DOOMSDAY101/Edusync/assets/111040170/514d9ee0-053d-4d77-805c-f378b93be0d4)
+
+### Student List
+![Screenshot (63)](https://github.com/DOOMSDAY101/Edusync/assets/111040170/63fcd648-2613-4c06-b569-1a44f7fe68fd)
+
+
 ### Teacher
 First the teacher will apply for job,if he/she gets selected there accounts will be made and approved by the admin, after approval only teacher can access their dashboard.
 After account approval by admin, teacher can take attendance of any class and view their attendance later.
