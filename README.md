@@ -1,5 +1,5 @@
-![Uploading Screenshot (61).png…]()
-
+### Home Page
+![Screenshot (61)](https://github.com/DOOMSDAY101/Edusync/assets/111040170/34f5f4d7-fe6f-4daa-8bcf-8ca5b48190f9)
 ### Teacher
 First the teacher will apply for job,if he/she gets selected there accounts will be made and approved by the admin, after approval only teacher can access their dashboard.
 After account approval by admin, teacher can take attendance of any class and view their attendance later.
