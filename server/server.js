@@ -1,15 +1,18 @@
 const express = require("express");
 const dotenv = require("dotenv");
+
+dotenv.config();
 const multer = require("multer");
-//const fs = require("fs");
+const route = require("./route");
 const cors = require("cors");
 const db = require("./database/conn");
 const app = express();
-dotenv.config();
-const port = process.env.port;
 
-app.use(cors());
+const port = process.env.port;
+ 
+app.use(cors('*'));
 app.use(express.json());
+app.use('/api', route)
 
 // Create a multer middleware to parse the pdf file upload request
 const storagepdf = multer.diskStorage({
