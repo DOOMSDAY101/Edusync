@@ -16,10 +16,15 @@
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.3.2",
     "dayjs": "^1.11.9",
+<<<<<<< HEAD
     "detect-port-alt": "^1.1.6",
     "isexe": "^3.1.1",
+=======
+    "jsonwebtoken": "^9.0.2",
+>>>>>>> d8a51531de1dc92ea85ac21e87a29324e22dc83e
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-jwt": "^1.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },

@@ -10,9 +10,11 @@ const cors = require('cors');
 const path = require('path');
 const port = process.env.port
 
-app.use(express.static(path.join(__dirname, 'build')))
 app.use(cors());
+app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'build')))
+app.use(express.json())
 app.use(bodyParser.json())
 app.use(cookieparser())
 let db = mysql.createConnection({
@@ -26,8 +28,6 @@ db.connect(err => {
     console.log("connected")
 });
 
-
-
 app.get('/welcome', isLoggedInWelcome, (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'))
 })
@@ -40,7 +40,6 @@ app.get('/register', isLoggedInSignupAndLogin, (req, res) => {
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'))
 })
-
 //A FUCTION TO LOG A USER IN
 //FOR THE LOGIN POST REQUEST
 app.post('/login', (req, res) => {

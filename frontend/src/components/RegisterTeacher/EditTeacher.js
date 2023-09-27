@@ -3,53 +3,71 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Button from "@mui/material/Button";
 import { useState } from "react";
+import { useLocation, useParams } from 'react-router-dom';
+import { useEffect } from "react";
 
-function RegisterStudent() {
-  const [firstName, setFirstName] = useState("");
-  const [middleName, setMiddleName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [gender, setGender] = useState("");
-  const [grade, setGrade] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState(null);
+function TeacherStudent() {
+  const [teacher, setTeacher] = useState({
+    firstName:'',lastName:'',middleName:'',
+    email:'',gender:'',dateOfBirth:null,phone:null
+  });
 
-  const onHandleSave = (event) => {
+  const id = useParams().id;
+  console.log(id);
+
+  const fetchTeacherList = async () => {
+    const response = await fetch('http://localhost:1337/api/teacher/' + id, {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token"),
+      },
+    });
+    const data = await response.json();
+    if (data.teacher) {
+      const teacher = data.teacher;
+      setTeacher({...teacher,firstName:teacher.firstName,
+        middleName:teacher.middleName, gender:teacher.gender,
+        email:teacher.email, phone:teacher.email})
+    }
+  };
+
+  useEffect(() => {
+    fetchTeacherList();
+  }, []);
+
+  const onHandleUpdate = (event) => {
     event.preventDefault();
-    saveStudent();
+    updateTeacher();
   };
-  const handleReset = () => {
-    setFirstName("");
-    setMiddleName("");
-    setLastName("");
-    setGender("");
-    setGrade("");
-    setDateOfBirth(null);
-  };
-  const saveStudent = async () => {
-    const response = await fetch("http://localhost:1337/api/addStudent", {
-      method: "post",
+  const updateTeacher = async () => {
+    const response = await fetch("http://localhost:1337/api/teacher/" + id, {
+      method: "put",
       headers: {
         "Content-Type": "application/json",
         "x-access-token": localStorage.getItem("token"),
       },
       body: JSON.stringify({
-        firstName,
-        middleName,
-        lastName,
-        gender,
-        grade,
-        dateOfBirth,
+        firstName:teacher.firstName,
+        middleName:teacher.middleName,
+        lastName:teacher.lastName,
+        gender:teacher.gender,
+        phone:teacher.phone,
+        email:teacher.email,
+        dateOfBirth:teacher.dateOfBirth,
       }),
     });
-    const data = await response.json();
-    if (data.student) {
-      window.location.href = "/studentlist";
+    const data = await response.json(); console.log(data);
+    if (data.teacher) {
+      window.location.href = "/teacherlist";
     } else {
-      alert("error on save data");
+      alert("error on updating data");
     }
   };
+
   return (
     <div>
-      <h3>Student Detail</h3>
+      <h3>Teacher Detail</h3>
       <div className="row">
         <div className="col-6">
           {/* left side */}
@@ -58,8 +76,8 @@ function RegisterStudent() {
             <div className="col-sm-8">
               <input
                 type="firstname"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
+                value={teacher.firstName}
+                onChange={e => setTeacher({...teacher,firstName:e.target.value})}
                 className="form-control"
                 id="colFormLabel"
                 placeholder="First name"
@@ -71,8 +89,8 @@ function RegisterStudent() {
             <div className="col-sm-8">
               <input
                 type="Midlename"
-                value={middleName}
-                onChange={(e) => setMiddleName(e.target.value)}
+                value={teacher.middleName}
+                onChange={e => setTeacher({...teacher,middleName:e.target.value})}
                 className="form-control"
                 id="colFormLabel"
                 placeholder="Midle name"
@@ -84,8 +102,8 @@ function RegisterStudent() {
             <div className="col-sm-8">
               <input
                 type="lastname"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+                value={teacher.lastName}
+                onChange={e => setTeacher({...teacher,lastName:e.target.value})}
                 className="form-control"
                 id="colFormLabel"
                 placeholder="Last name"
@@ -97,9 +115,9 @@ function RegisterStudent() {
             <div className="col-sm-8">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
-                  value={dateOfBirth}
+                  value={teacher.dateOfBirth}
                   onChange={(newValue) => {
-                    setDateOfBirth(newValue.$d);
+                    setTeacher({...teacher,dateOfBirth:newValue.$d})
                   }}
                   slotProps={{ textField: { size: "small" } }}
                 />
@@ -115,8 +133,8 @@ function RegisterStudent() {
               <select
                 className="form-select"
                 aria-label="Default select example"
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
+                value={teacher.gender}
+                onChange={e => setTeacher({...teacher,gender:e.target.value})}
               >
                 <option value=""></option>
                 <option value="M">Male</option>
@@ -124,17 +142,29 @@ function RegisterStudent() {
               </select>
             </div>
           </div>
-
           <div className="row mb-3">
-            <label className="col-sm-3 col-form-label">Grade</label>
-            <div className="col-sm-4">
+            <label className="col-sm-3 col-form-label"> Email</label>
+            <div className="col-sm-8">
               <input
-                type="Grade"
-                value={grade}
-                onChange={(e) => setGrade(e.target.value)}
+                type="email"
+                value={teacher.email}
+                onChange={e => setTeacher({...teacher,email:e.target.value})}
                 className="form-control"
                 id="colFormLabel"
-                placeholder="Grade"
+                placeholder="Email"
+              />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label className="col-sm-3 col-form-label"> Phone</label>
+            <div className="col-sm-8">
+              <input
+                type="phone"
+                value={teacher.phone}
+                onChange={e => setTeacher({...teacher,phone:e.target.value})}
+                className="form-control"
+                id="colFormLabel"
+                placeholder="phone"
               />
             </div>
           </div>
@@ -142,13 +172,8 @@ function RegisterStudent() {
       </div>
       <div className="row justify-content-center">
         <div className="col-1  ">
-          <Button variant="contained" onClick={onHandleSave}>
-            Save
-          </Button>
-        </div>
-        <div className="col-1  ">
-          <Button variant="outlined" onClick={handleReset}>
-            Reset
+          <Button variant="contained"  onClick={onHandleUpdate}>
+            Update
           </Button>
         </div>
       </div>
@@ -156,4 +181,4 @@ function RegisterStudent() {
   );
 }
 
-export default RegisterStudent;
+export default TeacherStudent;

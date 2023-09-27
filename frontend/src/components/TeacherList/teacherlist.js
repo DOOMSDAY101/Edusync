@@ -1,4 +1,5 @@
 import Divider from "@mui/material/Divider";
+
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,28 +12,19 @@ import Link from "@mui/material/Link";
 import  EditIcon  from '@mui/icons-material/Edit';
 import {useNavigate } from 'react-router-dom'
 
-<<<<<<< HEAD
-function createData(id, fullname, gender, birthdate, grade) {
-  return { id, fullname, gender, birthdate, grade };
-}
+function TeacherList() {
+  const [teachers, setTeachers] = useState([]);
+  const navigate = useNavigate();
 
-const rows = [
-  createData(1, "Meklit Abenezer Dereje", "Female", "1/4/2006", "grade 4"),
-  createData(2, "Natan Abenezer Dereje", "Male", "2/3/2010", "grade 3"),
-  createData(3, "Suleman Mohamed Reshid", "Male", "4/4/1992", "grade 10"),
-  createData(4, "Roz Jone Snaw", "Female", "2/4/2002", "grade 8"),
-  createData(5, "Eyob Dagne Asefa", "Male", "6/5/2004", "grade 12"),
-  createData(6, "Robel Dereje Wakgari", "Male", "2/8/1994", "grade 2"),
-  createData(7, "Sulaiman Ifeoluwa Daniel", "Male", "29/3/1994", "grade 6")
+  const edit = ( teacher) =>{
+      if(teacher){
+       navigate("/editTeacher/" + teacher._id);
+      }
+       
+  }
 
-];
-=======
->>>>>>> d8a51531de1dc92ea85ac21e87a29324e22dc83e
-function Studentlist() {
-  const [students, setStudents] = useState([]);
-
-  const fetchStudentList = async () => {
-    const response = await fetch("http://localhost:1337/api/students", {
+  const fetchTeacherList = async () => {
+    const response = await fetch("http://localhost:1337/api/teachers", {
       method: "get",
       headers: {
         "Content-Type": "application/json",
@@ -40,26 +32,18 @@ function Studentlist() {
       },
     });
     const data = await response.json();
-    if (data.students) {
-      setStudents(data.students);
+    if (data.teachers) {
+      setTeachers(data.teachers);
     }
   };
 
   useEffect(() => {
-    fetchStudentList();
+    fetchTeacherList();
   }, []);
-  const navigate = useNavigate()
-
-  const edit = ( student) =>{
-      if(student){
-       navigate("/editStudent/" + student._id);
-      }
-       
-  }
 
   return (
     <div>
-      <h3>Student List</h3>
+      <h3>Teacher List</h3>
       <div className="row ">
         <div className="input-group mb-3" style={{ width: "400px" }}>
           <input
@@ -87,28 +71,30 @@ function Studentlist() {
                 <TableCell>Full Name</TableCell>
                 <TableCell>Gender</TableCell>
                 <TableCell>Birthdate</TableCell>
-                <TableCell>Grade</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Phone</TableCell>
                 <TableCell>Edit</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {students.map((student) => (
+              {teachers.map((teacher) => (
                 <TableRow
-                  key={student._id}
+                  key={teacher._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell>
-                    {student.firstName +
+                    {teacher.firstName +
                       " " +
-                      student.middleName +
+                      teacher.middleName +
                       " " +
-                      student.lastName}
+                      teacher.lastName}
                   </TableCell>
-                  <TableCell>{student.gender}</TableCell>
-                  <TableCell>{student.dateOfBirth}</TableCell>
-                  <TableCell>{student.grade}</TableCell>
+                  <TableCell>{teacher.gender}</TableCell>
+                  <TableCell>{teacher.dateOfBirth}</TableCell>
+                  <TableCell>{teacher.email}</TableCell>
+                  <TableCell>{teacher.phone}</TableCell>
                   <TableCell>
-                      <EditIcon  onClick={()=>edit(student)} /> 
+                      <EditIcon  onClick={()=>edit(teacher)} /> 
                    </TableCell>
                 </TableRow>
               ))}
@@ -120,4 +106,4 @@ function Studentlist() {
   );
 }
 
-export default Studentlist;
+export default TeacherList;
