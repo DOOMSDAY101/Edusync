@@ -82,6 +82,7 @@ export default function AppLayout() {
     setOpen(true);
   };
   const handelUrlClick = (url) => {
+    // const token = localStorage.clear();
     navigate(url);
   };
   const handleDrawerClose = () => {
@@ -215,7 +216,25 @@ export default function AppLayout() {
             </ListItemButton>
           </ListItem>
           <ListItem
+            key={3}
+            disablePadding
+            onClick={() => handelUrlClick("/registerTeacher")}
+          >
+            <ListItemButton>
+              <ListItemText primary="Register Teacher" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem
             key={4}
+            disablePadding
+            onClick={() => handelUrlClick("/teacherList")}
+          >
+            <ListItemButton>
+              <ListItemText primary="Teacher List" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem
+            key={5}
             disablePadding
             onClick={() => handelUrlClick("/notice")}
           >
@@ -224,7 +243,7 @@ export default function AppLayout() {
             </ListItemButton>
           </ListItem>
           <ListItem
-            key={5}
+            key={6}
             disablePadding
             onClick={() => handelUrlClick("/timetable")}
           >
@@ -232,7 +251,7 @@ export default function AppLayout() {
               <ListItemText primary="Time Table" />
             </ListItemButton>
           </ListItem>
-          <ListItem key={6} disablePadding>
+          <ListItem key={7} disablePadding>
             <ListItemButton>
               <ListItemText primary="Result" />
             </ListItemButton>

@@ -12,11 +12,19 @@ import Link from "@mui/material/Link";
 import  EditIcon  from '@mui/icons-material/Edit';
 import {useNavigate } from 'react-router-dom'
 
-function Studentlist() {
-  const [students, setStudents] = useState([]);
+function TeacherList() {
+  const [teachers, setTeachers] = useState([]);
+  const navigate = useNavigate();
 
-  const fetchStudentList = async () => {
-    const response = await fetch("http://localhost:1337/api/students", {
+  const edit = ( teacher) =>{
+      if(teacher){
+       navigate("/editTeacher/" + teacher._id);
+      }
+       
+  }
+
+  const fetchTeacherList = async () => {
+    const response = await fetch("http://localhost:1337/api/teachers", {
       method: "get",
       headers: {
         "Content-Type": "application/json",
@@ -24,26 +32,18 @@ function Studentlist() {
       },
     });
     const data = await response.json();
-    if (data.students) {
-      setStudents(data.students);
+    if (data.teachers) {
+      setTeachers(data.teachers);
     }
   };
 
   useEffect(() => {
-    fetchStudentList();
+    fetchTeacherList();
   }, []);
-  const navigate = useNavigate()
-
-  const edit = ( student) =>{
-      if(student){
-       navigate("/editStudent/" + student._id);
-      }
-       
-  }
 
   return (
     <div>
-      <h3>Student List</h3>
+      <h3>Teacher List</h3>
       <div className="row ">
         <div className="input-group mb-3" style={{ width: "400px" }}>
           <input
@@ -71,28 +71,30 @@ function Studentlist() {
                 <TableCell>Full Name</TableCell>
                 <TableCell>Gender</TableCell>
                 <TableCell>Birthdate</TableCell>
-                <TableCell>Grade</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Phone</TableCell>
                 <TableCell>Edit</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {students.map((student) => (
+              {teachers.map((teacher) => (
                 <TableRow
-                  key={student._id}
+                  key={teacher._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell>
-                    {student.firstName +
+                    {teacher.firstName +
                       " " +
-                      student.middleName +
+                      teacher.middleName +
                       " " +
-                      student.lastName}
+                      teacher.lastName}
                   </TableCell>
-                  <TableCell>{student.gender}</TableCell>
-                  <TableCell>{student.dateOfBirth}</TableCell>
-                  <TableCell>{student.grade}</TableCell>
+                  <TableCell>{teacher.gender}</TableCell>
+                  <TableCell>{teacher.dateOfBirth}</TableCell>
+                  <TableCell>{teacher.email}</TableCell>
+                  <TableCell>{teacher.phone}</TableCell>
                   <TableCell>
-                      <EditIcon  onClick={()=>edit(student)} /> 
+                      <EditIcon  onClick={()=>edit(teacher)} /> 
                    </TableCell>
                 </TableRow>
               ))}
@@ -104,4 +106,4 @@ function Studentlist() {
   );
 }
 
-export default Studentlist;
+export default TeacherList;

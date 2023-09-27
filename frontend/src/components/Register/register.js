@@ -7,15 +7,32 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+    const response = await fetch("http://localhost:1337/api/registerUser", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+      }),
     });
+    const data = await response.json();
+    if (data.status == "ok") {
+      navigate("/login");
+    }
   };
 
   return (
@@ -39,14 +56,16 @@ export default function Register() {
           <TextField
             margin="normal"
             required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             fullWidth
-            id="firstName"
-            label="First Name"
-            name="firstName"
-            autoComplete="fristName"
+            id="userName"
+            label="User name"
+            name="userName"
+            autoComplete="userName"
             autoFocus
           />
-          <TextField
+          {/* <TextField
             margin="normal"
             required
             fullWidth
@@ -55,10 +74,12 @@ export default function Register() {
             name="lastName"
             autoComplete="lastName"
             autoFocus
-          />
+          /> */}
           <TextField
             margin="normal"
             required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             fullWidth
             id="email"
             label="Email Address"
@@ -68,15 +89,17 @@ export default function Register() {
           />
           <TextField
             margin="normal"
+            value={password}
             required
             fullWidth
+            onChange={(e) => setPassword(e.target.value)}
             name="password"
             label="Password"
             type="password"
             id="password"
             autoComplete="current-password"
           />
-          <TextField
+          {/* <TextField
             margin="normal"
             required
             fullWidth
@@ -85,7 +108,7 @@ export default function Register() {
             type="confirmPassword"
             id="confirmPassword"
             autoComplete="confirmPassword"
-          />
+          /> */}
 
           <Button
             type="submit"
