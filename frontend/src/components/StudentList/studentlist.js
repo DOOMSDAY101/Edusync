@@ -1,5 +1,4 @@
 import Divider from "@mui/material/Divider";
-
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -19,6 +18,8 @@ const rows = [
   createData(4, "Roz Jone Snaw", "Female", "2/4/2002", "grade 8"),
   createData(5, "Eyob Dagne Asefa", "Male", "6/5/2004", "grade 12"),
   createData(6, "Robel Dereje Wakgari", "Male", "2/8/1994", "grade 2"),
+  createData(7, "Sulaiman Ifeoluwa Daniel", "Male", "29/3/1994", "grade 6")
+
 ];
 function Studentlist() {
   return (

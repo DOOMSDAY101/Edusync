@@ -8,14 +8,45 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
-export default function Login() {
-  const handleSubmit = (event) => {
+
+
+
+function Login() {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    let email = data.get("email");
+    let password = data.get("password");
     console.log({
       email: data.get("email"),
-      password: data.get("password"),
-    });
+      password: data.get("password")
+    })
+    let dataToSend = {
+      email: email,
+      password: password
+    }
+    try {
+      const responses = await fetch('/login', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dataToSend)
+      });
+
+      if (responses.ok) {
+        console.log("User Logged In")
+        //WORK ON THIS TO MAKE IT BETTER
+        //WHEN THE USER LOGS IN THE USER IS REDIRECTED TO ANOTHER PAGE
+      } else if (responses.status === 404) {
+        //IF THE GMAIL OR PASSWORD IS INCORRECT THE LOGIN PAGE IS RENDERED AGAIN 
+        console.log("Invalid Email or incorrect password")
+      } else {
+        console.log("Invalid Email or incorrect password")
+      }
+    } catch (error) {
+      console.log("Login Error")
+    }
   };
 
   return (
@@ -80,5 +111,8 @@ export default function Login() {
         </Box>
       </Box>
     </Container>
+
   );
 }
+
+export default Login;

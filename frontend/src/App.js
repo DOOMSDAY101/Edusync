@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Notice from "./components/Notice/notice";
 import Studentlist from "./components/StudentList/studentlist";
 import TimeTable from "./components/TimeTable/timetable";
+import SecuredPage from "./components/Welcome/SecuredPage";
 
 function App() {
   return (
@@ -16,12 +17,14 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<AppLayout />}>
+            <Route path="/" element={<Home />} />
             <Route path="home" element={<Home />} />
             <Route path="register-student" element={<RegisterStudent />} />
             <Route path="notice" element={<Notice />} />
             <Route path="studentlist" element={<Studentlist />} />
             <Route path="timetable" element={<TimeTable />} />
           </Route>
+          <Route path="welcome" element={<SecuredPage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="forgotPassword" element={<ForgotPassword />} />

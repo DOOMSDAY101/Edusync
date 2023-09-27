@@ -9,13 +9,42 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
 export default function Register() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    let email = data.get("email");
+    let password = data.get("password");
+    let firstName = data.get("firstName");
+    let lastName = data.get("lastName");
+    let dataToSend = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+
+    }
+    try {
+      const responses = await fetch('/register', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dataToSend)
+      });
+
+      if (responses.ok) {
+        console.log("USER successsfully created")
+        //THIS SHOWS THE USER HAS BEEN CREATED SUCCESFULLY
+        //REDIRECT THEM TO LOGIN PAGE FOR AUTHENTICATION
+      } else if (responses.status === 404) {
+        console.log("AN ERROR OCCURED")
+        //AN UNKNOWN ERROR OCCURED 
+      } else {
+        console.log("ERROR")
+      }
+    } catch (error) {
+      console.log("UNABLE TO REGISTER STUDENT")
+    }
   };
 
   return (
@@ -43,7 +72,7 @@ export default function Register() {
             id="firstName"
             label="First Name"
             name="firstName"
-            autoComplete="fristName"
+            autoComplete="firstName"
             autoFocus
           />
           <TextField
