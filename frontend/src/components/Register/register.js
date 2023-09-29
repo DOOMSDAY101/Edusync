@@ -7,15 +7,70 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
-  const handleSubmit = (event) => {
+<<<<<<< HEAD
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+    let email = data.get("email");
+    let password = data.get("password");
+    let firstName = data.get("firstName");
+    let lastName = data.get("lastName");
+    let dataToSend = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+
+    }
+    try {
+      const responses = await fetch('/register', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dataToSend)
+      });
+
+      if (responses.ok) {
+        console.log("USER successsfully created")
+        //THIS SHOWS THE USER HAS BEEN CREATED SUCCESFULLY
+        //REDIRECT THEM TO LOGIN PAGE FOR AUTHENTICATION
+      } else if (responses.status === 404) {
+        console.log("AN ERROR OCCURED")
+        //AN UNKNOWN ERROR OCCURED 
+      } else {
+        console.log("ERROR")
+      }
+    } catch (error) {
+      console.log("UNABLE TO REGISTER STUDENT")
+=======
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const response = await fetch("http://localhost:1337/api/registerUser", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+      }),
     });
+    const data = await response.json();
+    if (data.status == "ok") {
+      navigate("/login");
+>>>>>>> d8a51531de1dc92ea85ac21e87a29324e22dc83e
+    }
   };
 
   return (
@@ -39,14 +94,23 @@ export default function Register() {
           <TextField
             margin="normal"
             required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             fullWidth
+<<<<<<< HEAD
             id="firstName"
             label="First Name"
             name="firstName"
-            autoComplete="fristName"
+            autoComplete="firstName"
+=======
+            id="userName"
+            label="User name"
+            name="userName"
+            autoComplete="userName"
+>>>>>>> d8a51531de1dc92ea85ac21e87a29324e22dc83e
             autoFocus
           />
-          <TextField
+          {/* <TextField
             margin="normal"
             required
             fullWidth
@@ -55,10 +119,12 @@ export default function Register() {
             name="lastName"
             autoComplete="lastName"
             autoFocus
-          />
+          /> */}
           <TextField
             margin="normal"
             required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             fullWidth
             id="email"
             label="Email Address"
@@ -68,15 +134,17 @@ export default function Register() {
           />
           <TextField
             margin="normal"
+            value={password}
             required
             fullWidth
+            onChange={(e) => setPassword(e.target.value)}
             name="password"
             label="Password"
             type="password"
             id="password"
             autoComplete="current-password"
           />
-          <TextField
+          {/* <TextField
             margin="normal"
             required
             fullWidth
@@ -85,7 +153,7 @@ export default function Register() {
             type="confirmPassword"
             id="confirmPassword"
             autoComplete="confirmPassword"
-          />
+          /> */}
 
           <Button
             type="submit"

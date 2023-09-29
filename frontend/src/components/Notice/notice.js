@@ -7,7 +7,7 @@ function Notice() {
   return (
     <div>
       <h1 className="notice_header">All Notice</h1>
-      <div class="row pt-3">
+      <div className="row pt-3">
         <Card>
           <CardActionArea>
             <CardContent>
@@ -22,7 +22,7 @@ function Notice() {
           </CardActionArea>
         </Card>
       </div>
-      <div class="row pt-3">
+      <div className="row pt-3">
         <Card>
           <CardActionArea>
             <CardContent>

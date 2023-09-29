@@ -1,165 +1,149 @@
-const express = require("express");
-const dotenv = require("dotenv");
-
-dotenv.config();
-const multer = require("multer");
-const route = require("./route");
-const cors = require("cors");
-const db = require("./database/conn");
+const express = require('express');
+require('dotenv').config();
 const app = express();
+let bcrypt = require('bcrypt');
+let mysql = require('mysql');
+let bodyParser = require('body-parser');
+let jwt = require('jsonwebtoken');
+let cookieparser = require('cookie-parser')
+const cors = require('cors');
+const path = require('path');
+const port = process.env.port
 
-const port = process.env.port;
- 
-app.use(cors('*'));
-app.use(express.json());
-app.use('/api', route)
-
-// Create a multer middleware to parse the pdf file upload request
-const storagepdf = multer.diskStorage({
-  destination: "./uploads_pdf",
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
+app.use(cors());
+app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'build')))
+app.use(express.json())
+app.use(bodyParser.json())
+app.use(cookieparser())
+let db = mysql.createConnection({
+    host: process.env.host,
+    user: process.env.user,
+    password: process.env.password,
+    database: process.env.database
+});
+db.connect(err => {
+    if (err) throw err;
+    console.log("connected")
 });
 
-const uploadpdf = multer({ storagepdf });
+app.get('/welcome', isLoggedInWelcome, (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
+app.get('/login', isLoggedInSignupAndLogin, (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
+app.get('/register', isLoggedInSignupAndLogin, (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
+//A FUCTION TO LOG A USER IN
+//FOR THE LOGIN POST REQUEST
+app.post('/login', (req, res) => {
+    let { email, password } = req.body;
+    console.log(email, password)
+    let sqlquery = "SELECT * FROM registered_users WHERE Email = (?)";
+    //DONT FORGET TO RUN "npm run build" IN THE FRONTEND DIRECTORY THEN COPY THE BUILD FOLDER TO TH SERVER FOLDER
+    db.query(sqlquery, [email], (err, data) => {
+        if (data.length === 0) {
+            //INVALID EMAIL
+            res.status(400).json({ error: "Invalid mail or Incorrect Password" })
+            console.log("404")
+        }
+        if (data.length > 0) {
+            bcrypt.compare(password.toString(), data[0].Password, (errors, response) => {
+                if (!response) {
+                    //INVALID PASSWORD
+                    console.log("Not found")
+                    res.status(400).json({ error: "Invalid mail or Incorrect Password" })
+                }
+                if (response) {
+                    //SUCCESS
+                    console.log("Logged in");
+                    let userdata = { name: data[0].Firstname, Email: data[0].Email }
+                    const accesstoken = jwt.sign(userdata, process.env.ACCESS_TOKEN, { expiresIn: "20s" });
+                    res.cookie('token', accesstoken)
+                    res.status(200).json({ message: "Valid credentials" })
+                }
+            })
+        }
+    })
+})
 
-// Create a multer middleware to parse the video file upload request
-const storagevideo = multer.diskStorage({
-  destination: "./uploads_video",
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
-});
 
-const uploadvideo = multer({ storagevideo });
+//SIGNUP FUNCTION
+app.post('/register', (req, res) => {
+    let { firstName, lastName, email, password } = req.body
+    console.log(firstName, lastName, email, password)
+    // let sqlquery = "SELECT Email FROM registered_users";
+    let sqlquery2 = "INSERT INTO registered_users (Firstname,Lastname,Email,Password) VALUES (?)";
 
+    bcrypt.hash(password.toString(), 10, (err, hash) => {
+        if (err) {
+            res.status(404).json({ message: "An error occured" })
+            throw err;
+        } else {
 
-// students login route
-app.post("/studentsLogin", (req, res) => {
-  //your code here
-});
-
-// teachers login route
-app.post("/teachersLogin", (req, res) => {
-  //your code here
-});
-
-// students signup route
-app.post("/studentsSignUp", (req, res) => {
- //your code here
-});
-
-// teachers signup route
-app.post("/teachesrSignUp", (req, res) => {
- //your code here
-});
-
+            let values = [
+                firstName,
+                lastName,
+                email,
+                hash
+            ]
+            db.query(sqlquery2, [values], (err, data) => {
+                if (err) {
+                    res.status(404).json({ message: "Email already exists" })
+                }
+                else {
+                    console.log("User created successfully")
+                    //REDIRECT USERS TO LOGIN PAGE FOR AUTHENTICATION
+                    res.status(200).json({ maessage: "User created succesfully" })
+                }
 
 
-// // Create an endpoint to upload the pdf file to mysql
-app.post("/uploadpdf", uploadpdf.single("file"), (req, res) => {
-  // Get the uploaded file
-  const file = req.file;
-  console.log(file);
+            })
+        }
 
-  //    // Create a SQL statement to insert the PDF file into the database
-  const sql =
-    "INSERT INTO pdf_files (file_name, file_size, file_data) VALUES (?, ?, ?)";
+    })
+})
 
-  // Bind the file name, file size, and file data to the SQL statement
-  const file_name = file.originalname;
-  const file_size = file.size;
-  const file_data = file.buffer;
+//A FUNCTION TO CHECK IF THE USER IS NOT  LOGGED IN
+//IF USER IS NOT LOGGED IN, USER SHOULD BE REDIRECTED TO LOGIN OF SIGNUP PAGE TO AVOID VIEWING SECURED PAGE
+function isLoggedInSignupAndLogin(req, res, next) {
+    let token = req.cookies.token;
+    jwt.verify(token, process.env.ACCESS_TOKEN, (err, response) => {
+        if (err) {
+            next();
+        } else {
+            //REDIRECT USER TO LOGIN OR SIGNUP PAGE
+            console.log("You cant view the welcome/securedpage Login or create an account to continue")
+        }
+    });
 
-  // Execute the SQL statement
-  db.query(sql, [file_name, file_size, file_data], (err, result) => {
-    if (err) {
-      console.log(err);
-      return;
+}
+
+//A FUNCTION TO CHECK IF THE USER IS ALREADY LOGGED IN
+//IF USER IS LOGGED IN USER SHOULD BE REDIRECTED TO THE SECURED OR WELCOME PAGE TO AVOID VIEWING LOGIN OR SIGNUP PAGE
+function isLoggedInWelcome(req, res, next) {
+    try {
+        let token = req.cookies.token;
+
+        let user = jwt.verify(token, process.env.ACCESS_TOKEN);
+        req.user = user;
+        next();
+        //REDIRECT THE USER BACK TO WELCOME/SECUREDPAGE
+    } catch (error) {
+        res.clearCookie('token');
+        console.log("You are not logged in So you cant view the welcome/securedpage");
+
     }
+}
 
-    console.log("PDF file inserted successfully");
-  });
-});
 
-// // Create an endpoint to upload the video file to mysql
-app.post("/uploadvideo", uploadvideo.single("file"), (req, res) => {
-  // Get the uploaded file
-  const file = req.file;
-  //console.log(file)
-
-  // Create a SQL statement to insert the PDF file into the database
-  const sql =
-    "INSERT INTO video_files (file_name, file_size, file_data) VALUES (?, ?, ?)";
-
-  // Bind the file name, file size, and file data to the SQL statement
-  const file_name = file.originalname;
-  const file_size = file.size;
-  const file_data = file.buffer;
-
-  // Execute the SQL statement
-  db.query(sql, [file_name, file_size, file_data], (err, result) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-
-    console.log("video file inserted successfully");
-  });
-});
-
-//get pdf files
-app.get("/getpdf/:id", (req, res) => {
-  // Execute a SQL query to select the PDF file from the database
-  const sql =
-    "SELECT file_name, file_size, file_data FROM pdf_files WHERE id = ?";
-  db.query(sql, [req.params.id], (err, result) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-
-    // Bind the results of the query to a buffer
-    const buffer = result[0].file_data;
-
-    // Return the buffer to the frontend
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-      "Content-Disposition",
-      'attachment; filename="' + result[0].file_name + '"'
-    );
-    res.send(buffer);
-  });
-});
-
-//get video files
-app.get("/getvideo/:id", (req, res) => {
-  // Get the video ID from the request
-  const videoId = req.params.id;
-
-  // Execute the SQL statement to select the video file from the database
-  db.query(
-    "SELECT file_data FROM video_files WHERE id = ?",
-    [videoId],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-
-      // Get the video file data
-      const videoData = result[0].file_data;
-
-      // Set the response headers
-      res.setHeader("Content-Type", "video/mp4");
-
-      // Send the video file data to the client
-      res.end(videoData);
-    }
-  );
-});
 
 app.listen(port, () => {
-  console.log(`Server connected to http://localhost:${port}`);
-});
+    console.log(`app listening on port ${port}`)
+})

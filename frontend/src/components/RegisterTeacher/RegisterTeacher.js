@@ -4,12 +4,13 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Button from "@mui/material/Button";
 import { useState } from "react";
 
-function RegisterStudent() {
+function RegisterTeacher() {
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [gender, setGender] = useState("");
-  const [grade, setGrade] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState(null);
 
   const onHandleSave = (event) => {
@@ -21,11 +22,12 @@ function RegisterStudent() {
     setMiddleName("");
     setLastName("");
     setGender("");
-    setGrade("");
+    setEmail("");
+    setPhone("");
     setDateOfBirth(null);
   };
   const saveStudent = async () => {
-    const response = await fetch("http://localhost:1337/api/addStudent", {
+    const response = await fetch("http://localhost:1337/api/addTeacher", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -36,20 +38,21 @@ function RegisterStudent() {
         middleName,
         lastName,
         gender,
-        grade,
+        phone,
+        email,
         dateOfBirth,
       }),
     });
     const data = await response.json();
-    if (data.student) {
-      window.location.href = "/studentlist";
+    if (data.teacher) {
+      window.location.href = "/teacherList";
     } else {
       alert("error on save data");
     }
   };
   return (
     <div>
-      <h3>Student Detail</h3>
+      <h3>Teacher Detail</h3>
       <div className="row">
         <div className="col-6">
           {/* left side */}
@@ -110,6 +113,32 @@ function RegisterStudent() {
         <div className="col-6">
           {/* right side */}
           <div className="row mb-3">
+            <label className="col-sm-3 col-form-label"> Email</label>
+            <div className="col-sm-8">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="form-control"
+                id="colFormLabel"
+                placeholder="email"
+              />
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label className="col-sm-3 col-form-label"> Phone</label>
+            <div className="col-sm-8">
+              <input
+                type="phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="form-control"
+                id="colFormLabel"
+                placeholder="phone"
+              />
+            </div>
+          </div>
+          <div className="row mb-3">
             <label className="col-sm-3 col-form-label">Gender</label>
             <div className="col-sm-4">
               <select
@@ -122,20 +151,6 @@ function RegisterStudent() {
                 <option value="M">Male</option>
                 <option value="F">Female</option>
               </select>
-            </div>
-          </div>
-
-          <div className="row mb-3">
-            <label className="col-sm-3 col-form-label">Grade</label>
-            <div className="col-sm-4">
-              <input
-                type="Grade"
-                value={grade}
-                onChange={(e) => setGrade(e.target.value)}
-                className="form-control"
-                id="colFormLabel"
-                placeholder="Grade"
-              />
             </div>
           </div>
         </div>
@@ -156,4 +171,4 @@ function RegisterStudent() {
   );
 }
 
-export default RegisterStudent;
+export default RegisterTeacher;
