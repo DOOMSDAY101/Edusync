@@ -25,6 +25,7 @@ Students can download course material such as PDF files and video files.
 Student can't view attendance of other student.
 Student can't announce, they can only view.
 In addition students/parents can pay their school fee through the developed system. 
+![payment](https://github.com/DOOMSDAY101/Edusync/assets/45487708/45335b4a-9a62-4038-89ba-20433d4c4d96)
 ### Admin
 First admin will signup for a account.
 After login they can see how many student/teacher wants to get job/admission in their school.
