@@ -38,5 +38,5 @@ Admin can announce notice also.
 <ul>
 <li> <b>Abenezer Dereje https://github.com/AbenezerDer</b> #Email dabenu2012@gmail.com - Front end developer </li>
 <li> <b>Eyob Dagne	https://github.com/yobadagne<b> #Email yobadagne@gmail.com - Back end developer </li>
-<li> <b>Sulaiman Ifeoluwa	https://github.com/DOOMSDAY101</b> Back end developer </li>
+<li> <b>Sulaiman Ifeoluwa	https://github.com/DOOMSDAY101</b> #Email sulaiman.tofunmi30@gmail.com Back end developer </li>
 </ul>
