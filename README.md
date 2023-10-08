@@ -15,14 +15,16 @@
 First the teacher will apply for job,if he/she gets selected there accounts will be made and approved by the admin, after approval only teacher can access their dashboard.
 After account approval by admin, teacher can take attendance of any class and view their attendance later.
 Teacher can also publish/announce notice to student like submission of assignments.
+In addition teachers can also upload neccessary course material such as PDF files and videos.  
 
 ## Student
 First student will take admission/signup.
 When their account is approved by admin, only then the student can access their dashboard.
 After account approval by admin the student can view their details like attendance.
+Students can download course material such as PDF files and video files.
 Student can't view attendance of other student.
 Student can't announce, they can only view.
-
+In addition students/parents can pay their school fee through the developed system. 
 ### Admin
 First admin will signup for a account.
 After login they can see how many student/teacher wants to get job/admission in their school.
@@ -33,6 +35,7 @@ Admin can announce notice also.
 
 ### Author 
 
- <b>Abenezer Dereje https://github.com/AbenezerDer</b>
-<b>Sulaiman Ifeoluwa	https://github.com/DOOMSDAY101</b>
-Eyob Dagne	https://github.com/yobadagne
+<b>Abenezer Dereje https://github.com/AbenezerDer</b> #Email dabenu2012@gmail.com - Front end developer
+<b>Eyob Dagne	https://github.com/yobadagne<b> #Email yobadagne@gmail.com - Back end developer
+<b>Sulaiman Ifeoluwa	https://github.com/DOOMSDAY101</b> Back end developer
+
